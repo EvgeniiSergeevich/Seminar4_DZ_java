@@ -39,7 +39,7 @@ public class Alg_Li {
         int wallAmount = consoleIn(key);                             // Создание стен
 
 
-        for (int i = 0; i < boardLi.length; i++) {                   // Ставлю стены по периметру поля
+        for (int i = 0; i < boardLi.length; i++) {                   // Ставлю "стены" по периметру поля
             boardLi[0][i] = -1;
             boardLi[boardLi.length-1][i] = -1;
             boardLi[i][0] = -1;
@@ -70,10 +70,10 @@ public class Alg_Li {
     }
 
 
-    public static boolean isValidIndex(int[] array, int index)
-    {
-        return index >=0 && index < array.length;
-    }
+//    public static boolean isValidIndex(int[] array, int index)
+//    {
+//        return index >=0 && index < array.length;
+//    }
 
     public static int[][] algLi(int[][] array, int[] start, ArrayDeque walls, ArrayDeque finish)
     {
@@ -81,7 +81,7 @@ public class Alg_Li {
         states.addFirst(start);
         System.out.println(Arrays.toString(states.peek()) + " States");
         int i = 1;
-        int[] a = (int[]) finish.peek();
+
         System.out.println("array in");
 
         for (int j = 0; j < array.length; j++)                     // Вывожу на экран игровое поле
@@ -96,33 +96,29 @@ public class Alg_Li {
 
         while (finish.peek() != null)
         {
-
+            int[] a = (int[]) finish.peek();
             try {
 //                System.out.println(Arrays.toString(states.getFirst()) + " states.getFirst()");
-                if (isValidIndex(array[states.getFirst()[1]], states.getFirst()[0] - i) &&
-                        (array[states.getFirst()[1] - i][states.getFirst()[0]] == 0 || array[states.getFirst()[1] - i][states.getFirst()[0]] == -2)) {
+                if ((array[states.getFirst()[1] - i][states.getFirst()[0]] == 0 || array[states.getFirst()[1] - i][states.getFirst()[0]] == -2)) {
                     array[states.getFirst()[1] - i][states.getFirst()[0]] = array[states.getFirst()[1]][states.getFirst()[0]] + 1;
                     states.addLast(new int[]{states.getFirst()[0], states.getFirst()[1] - i});
 
                 } else {
                     System.out.println("else1");
                 }
-                if (isValidIndex(array[states.getFirst()[0]], states.getFirst()[0] + i) &&
-                        (array[states.getFirst()[1]][states.getFirst()[0] + i] == 0 || array[states.getFirst()[1]][states.getFirst()[0] + i] == -2)) {
+                if ((array[states.getFirst()[1]][states.getFirst()[0] + i] == 0 || array[states.getFirst()[1]][states.getFirst()[0] + i] == -2)) {
                     array[states.getFirst()[1]][states.getFirst()[0] + i] = array[states.getFirst()[1]][states.getFirst()[0]] + 1;
                     states.addLast(new int[]{states.getFirst()[0] + i, states.getFirst()[1]});
                 } else {
                     System.out.println("else2");
                 }
-                if (isValidIndex(array[states.getFirst()[1]], states.getFirst()[0] + 1) &&
-                        (array[states.getFirst()[1] + i][states.getFirst()[0]] == 0 || array[states.getFirst()[1] + i][states.getFirst()[0]] == -2)) {
+                if ((array[states.getFirst()[1] + i][states.getFirst()[0]] == 0 || array[states.getFirst()[1] + i][states.getFirst()[0]] == -2)) {
                     array[states.getFirst()[1] + i][states.getFirst()[0]] = array[states.getFirst()[1]][states.getFirst()[0]] + 1;
                     states.addLast(new int[]{states.getFirst()[0], states.getFirst()[1] + i});
                 } else {
                     System.out.println("else3");
                 }
-                if (isValidIndex(array[states.getFirst()[0]], states.getFirst()[0] - i) &&
-                        (array[states.getFirst()[1]][states.getFirst()[0] - i] == 0 || array[states.getFirst()[1]][states.getFirst()[0] - i] == -2)) {
+                if ((array[states.getFirst()[1]][states.getFirst()[0] - i] == 0 || array[states.getFirst()[1]][states.getFirst()[0] - i] == -2)) {
                     array[states.getFirst()[1]][states.getFirst()[0] - i] = array[states.getFirst()[1]][states.getFirst()[0]] + 1;
                     states.addLast(new int[]{states.getFirst()[0] - i, states.getFirst()[1]});
                 } else {
@@ -185,10 +181,10 @@ public class Alg_Li {
         return i;
     }
 
-//    public static int[][] path(int[][] array, ArrayDeque finish)
-//    {
-//        int[] a = (int[]) finish.getFirst();
-//
-//
-//    }
+    public static int[][] path(int[][] array, ArrayDeque finish)
+    {
+        int[] a = (int[]) finish.getFirst();
+        
+
+    }
 }

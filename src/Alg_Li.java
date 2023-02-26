@@ -39,8 +39,14 @@ public class Alg_Li {
         int wallAmount = consoleIn(key);                             // Создание стен
 
 
+        for (int i = 0; i < boardLi.length; i++) {                   // Ставлю стены по периметру поля
+            boardLi[0][i] = -1;
+            boardLi[boardLi.length-1][i] = -1;
+            boardLi[i][0] = -1;
+            boardLi[i][boardLi.length - 1] = -1;
+        }
 
-        while (wallAmount != 0)                                      // Отмечаю точки финиша "-1"
+        while (wallAmount != 0)                                      // Отмечаю точки стен "-1"
         {
             coordPoint = markPoints(key, "стены");
             walls.add(coordPoint);
@@ -150,16 +156,16 @@ public class Alg_Li {
     {
         System.out.print("Укажите размер поля: ");
         int size = consoleIn(key);
-        return new int[size][size];
+        return new int[size + 2][size + 2];
     }
 
 
     public static int[] markPoints(Scanner key, String str)           // Отмечаю точки на поле
     {
         System.out.printf("Укажите координату X %s (считая первую клетку, как 1,1): ", str);
-        int x = consoleIn(key) - 1;
+        int x = consoleIn(key);
         System.out.printf("Укажите координату Y %s (считая первую клетку, как 1,1): ", str);
-        int y = consoleIn(key) - 1;
+        int y = consoleIn(key);
         System.out.println();
         return new int[]{x, y};
     }

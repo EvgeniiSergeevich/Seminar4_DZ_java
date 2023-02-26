@@ -47,14 +47,19 @@ public class Alg_Li {
         {
             coordPoint = markPoints(key, "стены");
             walls.add(coordPoint);
-            boardLi[coordPoint[1]][coordPoint[0]] = -1;
+            if (coordPoint[1] < boardLi.length && coordPoint[0] < boardLi.length) {
+                boardLi[coordPoint[1]][coordPoint[0]] = -1;
+            } else
+            {
+                System.out.println("Выход за размер поля!");
+            }
             wallAmount--;
         }
 
         System.out.println("Стартовое поле");
         printArray(boardLi);
 
-        boardLi = algLi(boardLi, start, walls, finish);
+        boardLi = algLi(boardLi, start, finish);
         System.out.println("Поле с заполненными путями");
         printArray(boardLi);
         System.out.println("Кратчайший путь отмечен \"-7\", старт \"1\"");
@@ -62,7 +67,7 @@ public class Alg_Li {
     }
 
 
-    public static int[][] algLi(int[][] array, int[] start, ArrayDeque walls, ArrayDeque finish)
+    public static int[][] algLi(int[][] array, int[] start,  ArrayDeque finish)
     {
         ArrayDeque<int[]> states = new ArrayDeque<>();
         states.addFirst(start);
@@ -148,7 +153,7 @@ public class Alg_Li {
         return i;
     }
 
-    public static int[][] path(int[][] array, ArrayDeque finish, ArrayDeque start)
+    public static int[][] path(int[][] array, ArrayDeque finish, ArrayDeque start)     // Отрисовка кратчайшего пути
     {
         ArrayDeque <int[]>states = new ArrayDeque();
 

@@ -5,23 +5,19 @@ import java.util.Scanner;
 public class Alg_Li {
     public static void main(String[] args) {
         runLi();
-//        System.out.println(Arrays.toString(enterPoint(key)));
-//        int[][] board = board();
-//        for (int i = 0; i < board.length; i++) {
-//            for (int j = 0; j < board[i].length; j++) {
-//                System.out.print(board[i][j] + "  ");
-//            }
-//            System.out.println();
-//        }
+
     }
     public static void runLi()                                      // Логика программы
     {
         ArrayDeque<int[]> states = new ArrayDeque<int[]>();
         ArrayDeque<int[]> walls = new ArrayDeque<int[]>();
         ArrayDeque<int[]> finish = new ArrayDeque<int[]>();
+        ArrayDeque<int[]> finish2 = new ArrayDeque<int[]>();
         Scanner key = new Scanner(System.in);
         int[][] boardLi = board(key);                               // Игровое поле
         int[] start = markPoints(key, "точки старта");          // Координаты точки старта
+        ArrayDeque <int[]> strt = new ArrayDeque<>();
+        strt.addFirst(start);
         int[] coordPoint = new int[2];                              // Координаты точек
         boardLi[start[1]][start[0]] = 1;                            // Помечаю ячейку старта "1"
         System.out.print("Введите количество точек выхода(финиша): ");
@@ -31,10 +27,11 @@ public class Alg_Li {
             coordPoint = markPoints(key, "точки финиша");
             System.out.println(Arrays.toString(coordPoint) + " COORDS");
             finish.addLast(coordPoint);
+            finish2.addLast(coordPoint);
             boardLi[coordPoint[1]][coordPoint[0]] = -2;
             finPointsAmount--;
         }
-
+        System.out.println("FINISH" + Arrays.toString(finish.peek()));
         System.out.print("Ввдите количество стен: ");
         int wallAmount = consoleIn(key);                             // Создание стен
 
@@ -54,88 +51,45 @@ public class Alg_Li {
             wallAmount--;
         }
 
-//        int[] a = finish.peek();
-//        System.out.println(Arrays.toString(a) + " runLi");
+        System.out.println("Стартовое поле");
+        printArray(boardLi);
 
         boardLi = algLi(boardLi, start, walls, finish);
-
-        for (int i = 0; i < boardLi.length; i++)                     // Вывожу на экран игровое поле
-        {
-            for (int j = 0; j < boardLi[i].length; j++)
-            {
-                System.out.print(boardLi[i][j] + "   ");
-            }
-            System.out.println();
-        }
+        System.out.println("Поле с заполненными путями");
+        printArray(boardLi);
+        System.out.println("Кратчайший путь отмечен \"-7\", старт \"1\"");
+        printArray(path(boardLi, finish2, strt));
     }
 
-
-//    public static boolean isValidIndex(int[] array, int index)
-//    {
-//        return index >=0 && index < array.length;
-//    }
 
     public static int[][] algLi(int[][] array, int[] start, ArrayDeque walls, ArrayDeque finish)
     {
         ArrayDeque<int[]> states = new ArrayDeque<>();
         states.addFirst(start);
-        System.out.println(Arrays.toString(states.peek()) + " States");
         int i = 1;
-
-        System.out.println("array in");
-
-        for (int j = 0; j < array.length; j++)                     // Вывожу на экран игровое поле
-        {
-            for (int k = 0; k < array[j].length; k++)
-            {
-                System.out.print(array[j][k] + "   ");
-            }
-            System.out.println();
-        }
-        System.out.println();
 
         while (finish.peek() != null)
         {
             int[] a = (int[]) finish.peek();
             try {
-//                System.out.println(Arrays.toString(states.getFirst()) + " states.getFirst()");
                 if ((array[states.getFirst()[1] - i][states.getFirst()[0]] == 0 || array[states.getFirst()[1] - i][states.getFirst()[0]] == -2)) {
                     array[states.getFirst()[1] - i][states.getFirst()[0]] = array[states.getFirst()[1]][states.getFirst()[0]] + 1;
                     states.addLast(new int[]{states.getFirst()[0], states.getFirst()[1] - i});
 
-                } else {
-                    System.out.println("else1");
                 }
                 if ((array[states.getFirst()[1]][states.getFirst()[0] + i] == 0 || array[states.getFirst()[1]][states.getFirst()[0] + i] == -2)) {
                     array[states.getFirst()[1]][states.getFirst()[0] + i] = array[states.getFirst()[1]][states.getFirst()[0]] + 1;
                     states.addLast(new int[]{states.getFirst()[0] + i, states.getFirst()[1]});
-                } else {
-                    System.out.println("else2");
                 }
                 if ((array[states.getFirst()[1] + i][states.getFirst()[0]] == 0 || array[states.getFirst()[1] + i][states.getFirst()[0]] == -2)) {
                     array[states.getFirst()[1] + i][states.getFirst()[0]] = array[states.getFirst()[1]][states.getFirst()[0]] + 1;
                     states.addLast(new int[]{states.getFirst()[0], states.getFirst()[1] + i});
-                } else {
-                    System.out.println("else3");
                 }
                 if ((array[states.getFirst()[1]][states.getFirst()[0] - i] == 0 || array[states.getFirst()[1]][states.getFirst()[0] - i] == -2)) {
                     array[states.getFirst()[1]][states.getFirst()[0] - i] = array[states.getFirst()[1]][states.getFirst()[0]] + 1;
                     states.addLast(new int[]{states.getFirst()[0] - i, states.getFirst()[1]});
-                } else {
-                    System.out.println("else4");
                 }
-//            finish.pop();
                 states.pollFirst();
-                for (int j = 0; j < array.length; j++)                     // Вывожу на экран игровое поле
-                {
-                    for (int k = 0; k < array[j].length; k++) {
-                        System.out.print(array[j][k] + "   ");
-                    }
-                    System.out.println();
-                }
-                System.out.println();
-//            System.out.println(Arrays.toString(array) + " array " + Arrays.toString(array[a[0]]) + " array[a[0]] " + Arrays.toString(array[a[1]]) + " array[a[1]]");
-//            System.out.println(array[a[0]][a[1]] + " array[a[0]][a[1]]");
 
                 if (array[a[1]][a[0]] != (-2)) {
                     finish.pop();
@@ -167,6 +121,19 @@ public class Alg_Li {
     }
 
 
+    public static void printArray(int[][] array)
+    {
+        for (int j = 0; j < array.length; j++)                     // Вывожу на экран игровое поле
+        {
+            for (int k = 0; k < array[j].length; k++)
+            {
+                System.out.print(array[j][k] + "   ");
+            }
+            System.out.println();
+        }
+        System.out.println();
+    }
+
     public static int consoleIn(Scanner key)                            // Читаю с консоли число
     {
         int i = 0;
@@ -181,10 +148,54 @@ public class Alg_Li {
         return i;
     }
 
-    public static int[][] path(int[][] array, ArrayDeque finish)
+    public static int[][] path(int[][] array, ArrayDeque finish, ArrayDeque start)
     {
-        int[] a = (int[]) finish.getFirst();
-        
+        ArrayDeque <int[]>states = new ArrayDeque();
 
+        int[] fin = (int[]) finish.peek();
+        int min = array[fin[1]][fin[0]];
+        while (finish.peek() != null)
+        {
+            int[] tmp = (int[]) finish.pop();
+            if (min > array[tmp[1]][tmp[0]])
+            {
+                fin = tmp;
+            }
+        }
+        states.addFirst(fin);
+        System.out.println("Кратчайший путь равен: " + array[states.getFirst()[1]][states.getFirst()[0]]);
+        while (start.peek() != null)
+        {
+            if (array[states.getFirst()[1] - 1][states.getFirst()[0]] == 1 || array[states.getFirst()[1]][states.getFirst()[0] + 1] == 1
+                || array[states.getFirst()[1] + 1][states.getFirst()[0]] == 1 || array[states.getFirst()[1]][states.getFirst()[0] - 1] == 1)
+            {
+                start.pop();
+            }
+            if (array[states.getFirst()[1] - 1][states.getFirst()[0]] + 1 == array[states.getFirst()[1]][states.getFirst()[0]])
+            {
+                states.addLast(new int[]{states.getFirst()[0], states.getFirst()[1] - 1});
+                array[states.getFirst()[1]][states.getFirst()[0]] = -7;
+            }
+            if (array[states.getFirst()[1]][states.getFirst()[0] + 1] + 1 == array[states.getFirst()[1]][states.getFirst()[0]])
+            {
+                states.addLast(new int[]{states.getFirst()[0] + 1, states.getFirst()[1]});
+                array[states.getFirst()[1]][states.getFirst()[0]] = -7;
+            }
+            if (array[states.getFirst()[1] + 1][states.getFirst()[0]] + 1 == array[states.getFirst()[1]][states.getFirst()[0]])
+            {
+                states.addLast(new int[]{states.getFirst()[0], states.getFirst()[1] + 1});
+                array[states.getFirst()[1]][states.getFirst()[0]] = -7;
+            }
+            if (array[states.getFirst()[1]][states.getFirst()[0] - 1] + 1 == array[states.getFirst()[1]][states.getFirst()[0]])
+            {
+                states.addLast(new int[]{states.getFirst()[0] - 1, states.getFirst()[1]});
+                array[states.getFirst()[1]][states.getFirst()[0]] = -7;
+
+
+            }
+
+            states.pollFirst();
+        }
+        return array;
     }
 }
